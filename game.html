@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SG Knows</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:linear-gradient(180deg,#090912,#111126,#18183a);
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+    overflow:hidden;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.particles{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+.particles span{
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:rgba(255,255,255,0.25);
+    border-radius:50%;
+    animation:float 14s linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+    }
+    to{
+        transform:translateY(-10vh);
+    }
+}
+
+.app{
+    width:100%;
+    max-width:430px;
+    height:100vh;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    justify-content:center;
+    align-items:center;
+}
+
+.top-logo{
+    width:70px;
+    height:70px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:22px; /* curved square */
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    flex-shrink:0;
+    overflow:hidden;
+}
+
+.top-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+#screen{
+    width:100%;
+}
+
+.card{
+    width:100%;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:28px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+    animation:fade 0.5s ease;
+    max-height:80vh;
+    overflow-y:auto;
+}
+
+.card::-webkit-scrollbar{
+    width:0;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.logo{
+    font-family:'Orbitron',sans-serif;
+    font-size:3rem;
+    margin-bottom:10px;
+    background:linear-gradient(90deg,#ff4fd8,#7c8dff,#00d4ff);
+    background-clip:text;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+    color:#dadada;
+    line-height:1.7;
+    font-size:0.95rem;
+    margin-bottom:25px;
+}
+
+.btn{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:18px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:14px;
+    transition:0.3s;
+}
+
+.primary{
+    background:linear-gradient(90deg,#ff4fd8,#7c8dff);
+    color:white;
+}
+
+.secondary{
+    background:rgba(255,255,255,0.08);
+    color:white;
+}
+
+.btn:hover{
+    transform:scale(1.03);
+}
+
+.circle-options{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:25px;
+}
+
+.circle-btn{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    border:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-size:0.9rem;
+    cursor:pointer;
+    transition:0.3s;
+    text-align:center;
+}
+
+.circle-btn.primary{
+    background:linear-gradient(135deg,#ff4fd8,#7c8dff);
+    color:white;
+    box-shadow:0 5px 15px rgba(255,79,216,0.3);
+}
+
+.circle-btn.secondary{
+    background:linear-gradient(135deg,#7c8dff,#00d4ff);
+    color:white;
+    border:none;
+    box-shadow:0 5px 15px rgba(0,212,255,0.3);
+}
+
+.circle-btn:hover{
+    transform:scale(1.08);
+}
+
+.mode-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:20px;
+}
+
+.mode{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(124,141,255,0.3);
+    padding:14px;
+    border-radius:16px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:0.9rem;
+}
+
+.mode:hover{
+    background:linear-gradient(135deg,#7c8dff,#00d4ff);
+    box-shadow:0 5px 15px rgba(0,212,255,0.3);
+    transform:scale(1.05);
+    border-color:transparent;
+}
+
+.words{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:20px 0;
+}
+
+.word{
+    background:rgba(255,255,255,0.07);
+    padding:12px;
+    border-radius:14px;
+    font-size:0.85rem;
+}
+
+.question{
+    font-size:1.2rem;
+    margin-bottom:10px;
+}
+
+.scan{
+    color:#9fdfff;
+    margin-top:15px;
+    letter-spacing:2px;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0.3;
+    }
+}
+
+.result{
+    margin-top:20px;
+    font-size:1.8rem;
+    font-weight:600;
+}
+
+.typing{
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:3px solid white;
+    width:0;
+    animation:typing 2s steps(20,end) forwards,
+    cursor 0.7s infinite;
+}
+
+@keyframes typing{
+    from{
+        width:0;
+    }
+    to{
+        width:100%;
+    }
+}
+
+@keyframes cursor{
+    50%{
+        border-color:transparent;
+    }
+}
+
+@media(max-width:480px){
+
+    .logo{
+        font-size:2.4rem;
+    }
+
+    .word{
+        font-size:0.78rem;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="app">
+    <div class="top-logo"><img src="logo.png" alt="SG Logo"></div>
+    <div id="screen"></div>
+</div>
+
+<script>
+
+for(let i=0;i<45;i++){
+
+    let particle=document.createElement("span");
+
+    particle.style.left=Math.random()*100+"%";
+
+    particle.style.animationDuration=(Math.random()*10+8)+"s";
+
+    particle.style.opacity=Math.random();
+
+    document.getElementById("particles").appendChild(particle);
+}
+
+const modes = {
+
+heroes:[
+"Vijay",
+"Ajith",
+"Suriya",
+"Dhanush",
+"Sivakarthikeyan",
+"Rajinikanth",
+"Kamal Haasan",
+"Vikram",
+"Karthi",
+"STR",
+"Jayam Ravi",
+"Vijay Sethupathi",
+"Jiiva",
+"Arun Vijay",
+"Harish Kalyan"
+],
+
+heroines:[
+"Nayanthara",
+"Trisha",
+"Samantha",
+"Keerthy Suresh",
+"Sai Pallavi",
+"Tamannaah",
+"Rashmika",
+"Anushka",
+"Kajal Aggarwal",
+"Hansika",
+"Andrea",
+"Amala Paul",
+"Pooja Hegde",
+"Aishwarya Rajesh",
+"Priya Bhavani"
+],
+
+cartoons:[
+"Doraemon",
+"Shinchan",
+"Tom - Jerry",
+"dora",
+"Ben 10",
+"Motu - patlu",
+"scooby doo",
+"Chhota Bheem",
+"Ninja Hattori",
+"Oggy",
+"Pokemon",
+"words world",
+"Mr Bean",
+"Powerpuff-girls",
+"Spiderman"
+],
+
+cars:[
+"BMW",
+"Audi",
+"Rolls Royce",
+"Benz",
+"Ferrari",
+"Lamborghini",
+"Bugatti",
+"Porsche",
+"Tesla",
+"Supra",
+"BIG DADDY - SCROPIO",
+"Range Rover",
+"Jaguar",
+"McLaren",
+"Mini Cooper"
+],
+
+bikes:[
+"R15",
+"Duke",
+"RX100",
+"SCCOTY PEP",
+"Apache",
+"Pulsar",
+"KTM RC",
+"Hayabusa",
+"Ninja ",
+"BMW",
+"Royal Enfield",
+"MT15",
+"DIO",
+"Activa",
+"FZ-S"
+],
+
+flowers:[
+"Rose",
+"Sunflower",
+"Jasmine",
+"Lily",
+"Tulip",
+"Lotus",
+"Hibiscus",
+"Daisy",
+"Orchid",
+"Lavender",
+"Marigold",
+"Cherry Blossom",
+"Dahlia",
+"Peony",
+"Iris"
+],
+
+movies:[
+"Anbe shivam",
+"Jailer",
+"Master",
+"Vikram",
+"aayirathil oruvan",
+"Dhurandhar",
+"Asuran",
+"Kaithi",
+"96",
+"Love Today",
+"Amaran",
+"Valimai",
+"Don",
+"Vikram Vedha",
+"Thuppakki"
+],
+
+songs:[
+"Arabic Kuthu",
+"Rowdy Baby",
+"Vaathi Coming",
+"Naa Ready",
+"Kaanavelam nethane",
+"Why This Kolaveri",
+"Firangipani",
+"Rakita Rakita",
+"mudhal ne mudivum ne ",
+"Kanpesum varthaigal",
+"nallaru poo",
+"Kutty Story",
+"Megham Karukatha",
+"Life of Ram",
+"Oo Solriya"
+],
+
+snacks:[
+"Pizza",
+"Burger",
+"French Fries",
+"Shawarma",
+"Sandwich",
+"Noodles",
+"Puffs",
+"Popcorn",
+"Chicken Roll",
+"fried Rice",
+"Cake",
+"Ice Cream",
+"Chips",
+"Donut",
+"momos"
+],
+
+animals:[
+"Lion",
+"Tiger",
+"Elephant",
+"Fox",
+"Wolf",
+"Dog",
+"Cat",
+"Bear",
+"Horse",
+"Rabbit",
+"Monkey",
+"Panda",
+"Peacock",
+"Zebra",
+"Deer"
+]
+
+};
+
+const cards = [
+{value:1,indexes:[1,3,5,7,9,11,13,15]},
+{value:2,indexes:[2,3,6,7,10,11,14,15]},
+{value:4,indexes:[4,5,6,7,12,13,14,15]},
+{value:8,indexes:[8,9,10,11,12,13,14,15]}
+];
+
+let selectedWords=[];
+let total=0;
+let current=0;
+
+welcome();
+
+function welcome(){
+
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+
+<div class="logo">SG Knows</div>
+
+<div class="subtitle">
+The Ultimate Mind Reading Game<br><br>
+Are you ready to be amazed?
+</div>
+
+<button class="btn primary" onclick="howToPlay()">
+Let's Begin
+</button>
+
+</div>
+
+`;
+
+}
+
+function howToPlay(){
+
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+
+<div class="logo" style="font-size: 2rem;">How to Play</div>
+
+<div class="subtitle" style="text-align: left; font-size: 0.9rem;">
+🧠 <b>Step 1:</b> Select a mode or choose random.<br><br>
+🤫 <b>Step 2:</b> Secretly think of ONE item from the list.<br><br>
+👀 <b>Step 3:</b> Check if your item is on the cards shown and click YES or NO.<br><br>
+✨ <b>Step 4:</b> Watch SG read your mind!
+</div>
+
+<button class="btn primary" onclick="home()">
+Show Modes & Play
+</button>
+
+</div>
+
+`;
+
+}
+
+function shuffleArray(array){
+
+    let shuffled=[...array];
+
+    for(let i=shuffled.length-1;i>0;i--){
+
+        let j=Math.floor(Math.random()*(i+1));
+
+        [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];
+    }
+
+    return shuffled;
+}
+
+function home(){
+
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+
+<div class="logo">SG Knows</div>
+
+<div class="subtitle">
+Think of one item secretly.<br>
+Do not reveal it to anyone.<br><br>
+SG will read your mind...
+</div>
+
+<div class="circle-options">
+    <button class="circle-btn primary" onclick="randomMode()">
+        <div style="font-size: 1.8rem; margin-bottom: 4px;">🎲</div>
+        Random
+    </button>
+
+    <button class="circle-btn secondary" onclick="showModes()">
+        <div style="font-size: 1.8rem; margin-bottom: 4px;">🎭</div>
+        Select
+    </button>
+</div>
+
+</div>
+
+`;
+
+}
+
+function randomMode(){
+
+let keys=Object.keys(modes);
+
+let random=keys[Math.floor(Math.random()*keys.length)];
+
+startMode(random);
+
+}
+
+function showModes(){
+
+let html=`
+
+<div class="card">
+
+<div class="logo">Select Mode</div>
+
+<div class="mode-grid">
+
+`;
+
+Object.keys(modes).forEach(mode=>{
+
+html+=`
+
+<div class="mode" onclick="startMode('${mode}')">
+${mode.toUpperCase()}
+</div>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+</div>
+
+`;
+
+document.getElementById("screen").innerHTML=html;
+
+}
+
+function startMode(mode){
+
+selectedWords=shuffleArray(modes[mode]);
+
+total=0;
+
+current=0;
+
+let html=`
+
+<div class="card">
+
+<div class="logo">${mode.toUpperCase()}</div>
+
+<div class="subtitle">
+Select one secretly...
+</div>
+
+<div class="words">
+
+`;
+
+selectedWords.forEach((word,index)=>{
+
+html+=`
+
+<div class="word">
+${index+1}. ${word}
+</div>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+<button class="btn primary" onclick="showCard()">
+I SELECTED
+</button>
+
+</div>
+
+`;
+
+document.getElementById("screen").innerHTML=html;
+
+}
+
+function showCard(){
+
+if(current>=cards.length){
+
+reveal();
+
+return;
+
+}
+
+let card=cards[current];
+
+let html=`
+
+<div class="card">
+
+<div class="logo">SG Scan</div>
+
+<div class="question">
+Is your choice present here?
+</div>
+
+<div class="words">
+
+`;
+
+card.indexes.forEach(num=>{
+
+html+=`
+
+<div class="word">
+${selectedWords[num-1]}
+</div>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+<button class="btn primary" onclick="yes(${card.value})">
+YES
+</button>
+
+<button class="btn secondary" onclick="no()">
+NO
+</button>
+
+</div>
+
+`;
+
+document.getElementById("screen").innerHTML=html;
+
+}
+
+function yes(val){
+
+total+=val;
+
+current++;
+
+showCard();
+
+}
+
+function no(){
+
+current++;
+
+showCard();
+
+}
+
+function reveal(){
+
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+
+<div class="logo">SG Reading Mind</div>
+
+<div class="scan">
+SCANNING BRAIN WAVES...
+</div>
+
+<div class="scan">
+ACCESSING MEMORY...
+</div>
+
+<div class="scan">
+DECODING THOUGHTS...
+</div>
+
+</div>
+
+`;
+
+if(navigator.vibrate){
+
+navigator.vibrate([300,100,300,100,500]);
+
+}
+
+setTimeout(()=>{
+
+document.getElementById("screen").innerHTML=`
+
+<div class="card">
+
+<div class="logo">SG Knows</div>
+
+<div class="result">
+
+<div class="typing">
+You Selected:
+</div>
+
+<br><br>
+
+${selectedWords[total-1]}
+
+</div>
+
+<button class="btn primary" onclick="home()">
+PLAY AGAIN
+</button>
+
+<button class="btn secondary" onclick="welcome()">
+EXIT TO HOME
+</button>
+
+</div>
+
+`;
+
+},3500);
+
+}
+
+</script>
+
+</body>
+</html>
